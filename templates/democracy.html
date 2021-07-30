@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block head%}
+
+{%endblock %}
+
+{% block body%}
+
+<h1>Democracy</h1>
+
+<div>
+    <form action="/democracy" method="POST">
+        <!--<div>
+            <input type="radio" name="controller" value="up" id="up">
+            <label for="up">Up</label>
+        </div>-->
+        <div>
+            <button name="controller" value="up" id="up">
+            <label for="up">Up</label>
+        </div>
+        <div>
+            <button name="controller" value="down" id="down">
+            <label for= "down">Down</label> 
+        </div>
+        <div>
+            <button name="controller" value="left" id="left">
+            <label for="left">Left</label>
+        </div>
+        <div>
+            <button name="controller" value="right" id="right">
+            <label for="right">Right</label>
+        </div>
+    </form>
+</div>
+<div>
+    {% pie_chart percentages %}
+</div>
+
+<div>
+    {% for input,percentage in percentages.items()  %}
+    <span>{{percentage}}%</span>
+    {% endfor %}
+</div>
+
+
+{%endblock %}
