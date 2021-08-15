@@ -1,10 +1,15 @@
+from os import wait
+
+from pynput import keyboard
+from utilities import launchMenu, startRoutine, switchToWindow
 from flask import Flask, render_template, request, redirect, Blueprint
 import time
 import chartkick
 import random as rd
 import subprocess as sp
-
-
+from pynput.keyboard import Controller
+import re
+import time
 app = Flask(__name__)
 ck = Blueprint('ck_page', __name__, static_folder=chartkick.js(), static_url_path='/static')
 app.register_blueprint(ck, url_prefix='/ck')
@@ -16,7 +21,22 @@ DEMO_VOTING_TIME = 8
 ANAR_VOTING_TIME = 2
 timer=time.perf_counter()
 
-sp.run('mgba /home/lucastrg/Desktop/Pokemon/saphir.gba', shell=True)
+kbd = Controller()
+terminal1 = sp.Popen('mgba Pokemon/saphir.gba & echo $!', shell=True, stdout=sp.PIPE)
+pid1 = re.sub("[^0-9]","", str(terminal1.stdout.readline()))
+print(pid1)
+terminal2 = sp.Popen('mgba Pokemon/saphir.gba & echo $!', shell=True, stdout=sp.PIPE)
+pid2 = re.sub("[^0-9]","", str(terminal2.stdout.readline()))
+print(pid2)
+time.sleep(5)
+#terminal1.stdin.write(b'echo Pokemon 1 has $pid1')$
+
+startRoutine(pid1,pid2, kbd)
+
+
+
+#terminal1.communicate('mgba /home/lucastrg/Desktop/Pokemon/saphir.gba')
+#wmctrl -ia $(wmctrl -lp | awk -vpid=38113 '$3==pid {print $1; exit}') 
 
 
 @app.route('/democracy', methods=['POST', 'GET'])
