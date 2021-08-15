@@ -61,8 +61,14 @@ go into the second window, press SHIFT + F2 to quicksave into quicksave slot 2 (
 Go into the VS code terminal again
 <pre>gunicorn -- workers 1 --bind unix:/home/lucastrg/Projects/NumerikPlaysFlask/numerikplays.sock -m 007 wsgi:app</pre>
 
+Dans la première poké fenêtre, press F1
+Dans la seconde poké fenêtre, press F2
+
+
 Open a new terminal
 <pre>systemctl restart nginx</pre>
+
+
 
 
 
