@@ -1,7 +1,7 @@
 from os import wait
 
 from pynput import keyboard
-from utilities import launchMenu, startRoutine, switchToWindow
+from utilities import launchMenu, press_key, resizeAndPlace, startRoutine, switchToWindow, translate
 from flask import Flask, render_template, request, redirect, Blueprint
 import time
 import chartkick
@@ -22,21 +22,20 @@ ANAR_VOTING_TIME = 2
 timer=time.perf_counter()
 
 kbd = Controller()
+
+#Lance un émulateur et echo son Process ID
 terminal1 = sp.Popen('mgba Pokemon/saphir.gba & echo $!', shell=True, stdout=sp.PIPE)
-pid1 = re.sub("[^0-9]","", str(terminal1.stdout.readline()))
-print(pid1)
+#Récupère le PID qui vient de se faire echo, c'est essentiel pour pouvoir changer le focus sur la fenêtre
+pidAnarchy = re.sub("[^0-9]","", str(terminal1.stdout.readline()))
+print(pidAnarchy)
+#
 terminal2 = sp.Popen('mgba Pokemon/saphir.gba & echo $!', shell=True, stdout=sp.PIPE)
-pid2 = re.sub("[^0-9]","", str(terminal2.stdout.readline()))
-print(pid2)
+pidDemocracy = re.sub("[^0-9]","", str(terminal2.stdout.readline()))
+print(pidDemocracy)
+time.sleep(2)
+resizeAndPlace(pidAnarchy, pidDemocracy)
 time.sleep(5)
-#terminal1.stdin.write(b'echo Pokemon 1 has $pid1')$
 
-startRoutine(pid1,pid2, kbd)
-
-
-
-#terminal1.communicate('mgba /home/lucastrg/Desktop/Pokemon/saphir.gba')
-#wmctrl -ia $(wmctrl -lp | awk -vpid=38113 '$3==pid {print $1; exit}') 
 
 
 @app.route('/democracy', methods=['POST', 'GET'])
@@ -50,6 +49,7 @@ def democracy():
                 inputs = inputs.fromkeys(inputs, 0) 
                 timer=time.perf_counter()
                 sp.run('echo "$key"', shell=True, env={'key': vote_res})
+                press_key(pidAnarchy, kbd, translate(str(vote_res)))
 
 
         total_votes = sum(inputs.values())
@@ -85,7 +85,7 @@ def anarchy():
                         sp.run('echo "$key"', shell=True, env={'key': str(vote_res[0])})
                         inputs = inputs.fromkeys(inputs, 0) 
                         timer=time.perf_counter()
-
+                        press_key(pidAnarchy, kbd, translate(str(vote_res[0])))
 
         total_votes = sum(inputs.values())
         percentages= inputs
