@@ -64,7 +64,7 @@ Go into the VS code terminal again
 Dans la première poké fenêtre, press F1
 Dans la seconde poké fenêtre, press F2
 
-
+ 
 Open a new terminal
 <pre>systemctl restart nginx</pre>
 
