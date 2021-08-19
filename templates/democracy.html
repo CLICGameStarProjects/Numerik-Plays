@@ -7,43 +7,73 @@
 {% block body%}
 
 <h1>Democracy</h1>
-
 <div>
-    <form action="/democracy" method="POST">
-        <!--<div>
-            <input type="radio" name="controller" value="up" id="up">
-            <label for="up">Up</label>
-        </div>-->
-        <div>
-            <!--<button name="controller" value="up" id="up">-->
-            <img src="../pics/arrow_up.png" alt="up" name="controller" id="up"/>
-            <label for="up">Up</label>
-        </div>
-        <div>
-            <!--<button name="controller" value="down" id="down">-->
-            <img src="../pics/arrow_down.png" alt="dpwn" name="controller" id="down"/>
-            <label for= "down">Down</label> 
-        </div>
-        <div>
-            <!--<button name="controller" value="left" id="left">-->
-            <img src="../pics/arrow_left.png" alt="left" name="controller" id="left"/>
-            <label for="left">Left</label>
-        </div>
-        <div>
-            <!--<button name="controller" value="right" id="right">-->
-            <img src="../pics/arrow_right.png" alt="right" name="controller" id="right"/>
-            <label for="right">Right</label>
-        </div>
-        <div>
-            <!--<button name="controller" value="a" id="a">-->
-            <img src="../pics/Abutton_big.png" alt="a" name="controller" id="a"/>
-            <label for="a">A</label>
-        </div>
-        <div>
-            <!--<button name="controller" value="b" id="b">-->
-                <img src="../pics/Bbutton_big.png" alt="b" name="controller" id="b"/>
-            <label for="b">B</label>
-        </div>
+    <form method="POST">
+    <table border=0 width="80%">
+            <tr>
+                <td></td>
+                <!--TD UP-->
+                <td align=center>
+                    <div>
+                        <!--<button name="controller" value="up" id="up">-->
+                        <img src="../pics/arrow_up.png" alt="up" name="controller" id="up"/>
+                        <!--<label for="up">Up</label>-->
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <!--TD LEFT-->
+                <td align=right>
+                    <div>
+                        <!--<button name="controller" value="left" id="left">-->
+                        <img src="../pics/arrow_left.png" alt="left" name="controller" id="left"/>
+                        <!--<label for="left">Left</label>-->
+                    </div>
+                </td>
+                <td></td>
+                <!--TD RIGHT-->
+                <td>
+                    <div>
+                        <!--<button name="controller" value="right" id="right">-->
+                        <img src="../pics/arrow_right.png" alt="right" name="controller" id="right"/>
+                        <!--<label for="right">Right</label>-->
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <!--TD DOWN-->
+                <td align=center>
+                    <div>
+                        <!--<button name="controller" value="down" id="down">-->
+                        <img src="../pics/arrow_down.png" alt="dpwn" name="controller" id="down"/>
+                        <!--<label for= "down">Down</label> -->
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+        <table border=0 width="80%">
+            <tr>
+                <!--TD A-->
+                <td align=center>
+                    <div>
+                        <!--<button name="controller" value="a" id="a">-->
+                        <img src="../pics/Abutton_big.png" alt="a" name="controller" id="a"/>
+                        <!--<label for="a">A</label>-->
+                    </div>
+                </td>
+                <!--TD B-->
+                <td align=center>
+                    <div>
+                        <!--<button name="controller" value="b" id="b">-->
+                            <img src="../pics/Bbutton_big.png" alt="b" name="controller" id="b"/>
+                        <!--<label for="b">B</label>-->
+                    </div>
+                </td>
+            </tr>
+        </table>
     </form>
 </div>
 <div>
