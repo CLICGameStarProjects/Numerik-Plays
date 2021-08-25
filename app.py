@@ -17,11 +17,13 @@ app.jinja_env.add_extension("chartkick.ext.charts")
 
 BASE_INPUTS = {"up":0, "down":0, "right":0, "left":0, "a":0, "b":0}
 inputs = BASE_INPUTS
-DEMO_VOTING_TIME = 8
-ANAR_VOTING_TIME = 2
+DEMO_VOTING_TIME = 0.5
+ANAR_VOTING_TIME = 0.5
+
 timer=time.perf_counter()
 
 kbd = Controller()
+
 
 #Lance un émulateur et echo son Process ID
 terminal1 = sp.Popen('mgba Pokemon/saphir.gba & echo $!', shell=True, stdout=sp.PIPE)
@@ -38,7 +40,9 @@ time.sleep(5)
 
 
 
+
 @app.route('/democracy', methods=['POST', 'GET'])
+@app.route('/numerik/democracy', methods=['POST', 'GET'])
 def democracy():
         global timer
         global inputs
@@ -49,7 +53,7 @@ def democracy():
                 inputs = inputs.fromkeys(inputs, 0) 
                 timer=time.perf_counter()
                 sp.run('echo "$key"', shell=True, env={'key': vote_res})
-                press_key(pidAnarchy, kbd, translate(str(vote_res)))
+                press_key(pidDemocracy, kbd, translate(str(vote_res)))
 
 
         total_votes = sum(inputs.values())
@@ -62,12 +66,12 @@ def democracy():
         if request.method== 'POST':
                 inputs[request.form['controller']]+=1
                 print(inputs)
-                return redirect('/democracy')
+                return redirect('/numerik/democracy')
         else:
                 return render_template("democracy.html", percentages=percentages)
 
-
 @app.route('/anarchy', methods=['POST', 'GET'])
+@app.route('/numerik/anarchy', methods=['POST', 'GET'])
 def anarchy():
         global timer
         global inputs
@@ -97,7 +101,7 @@ def anarchy():
         if request.method== 'POST':
                 inputs[request.form['controller']]+=1
                 print(inputs)
-                return redirect('/anarchy')
+                return redirect('/numerik/anarchy')
         else:
                 return render_template("anarchy.html", percentages=percentages)
 
@@ -106,11 +110,12 @@ def anarchy():
 
 
 
-
 @app.route('/', methods=['POST', 'GET'])
+@app.route('/numerik', methods=['POST', 'GET'])
+@app.route('/numerik/', methods=['POST', 'GET'])
 def index():
         if request.method == 'POST':
-                return redirect('/'+request.form['mode'])
+                return redirect('/numerik/'+request.form['mode'])
         else:
                 return render_template("index.html")
 

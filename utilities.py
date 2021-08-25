@@ -27,19 +27,21 @@ def translate(input):
 # 
 
 def resizeAndPlace(pidA, pidD):
-    string = "xdotool windowsize $(wmctrl -lp | awk -vpid=%s '$3==pid {print $1; exit}') 1620 1080" % (pidA) #3:2 aspect ration
+    string = "xdotool windowsize $(wmctrl -lp | awk -vpid=%s '$3==pid {print $1; exit}') 1620 1080" % (pidA) #3:2 aspect ratio
     sp.Popen(string, shell=True)
     string = "xdotool windowsize $(wmctrl -lp | awk -vpid=%s '$3==pid {print $1; exit}') 1620 1080" % (pidD)
     sp.Popen(string, shell=True)
     string = "xdotool windowmove $(wmctrl -lp | awk -vpid=%s '$3==pid {print $1; exit}') 2560 0" % (pidA)
     sp.Popen(string, shell=True)
-    string = "xdotool windowmove $(wmctrl -lp | awk -vpid=%s '$3==pid {print $1; exit}') 4480 0" % (pidD)
+    string = "xdotool windowmove $(wmctrl -lp | awk -vpid=%s '$3==pid {print $1; exit}') 4480 0" % (pidD) #(2560 + 3840/2 = 4480) 
     sp.Popen(string, shell=True)
 
 def switchToWindow(pid):
+    print("switching to ",pid)
     #Trivial, le code s'explique par lui même
-    string = "wmctrl -ia $(wmctrl -lp | awk -vpid=%s '$3==pid {print $1; exit}')" % (pid)
+    string = "wmctrl -ia $(wmctrl -lp | awk -vpid=%s '$3==pid {print $1}')" % (pid)
     sp.Popen(string, shell=True)
+
 
 #Felt clever, might delete later
 def launchMenu(pid, kbd):
@@ -49,6 +51,7 @@ def launchMenu(pid, kbd):
     time.sleep(0.1)
     kbd.release(Key.enter)
     print("Pressed enter")
+
 
 #Envoie un input sur les deux fenêtres à la fois, les délais sont assez vitaux malheureusement
 def sync_input(pid1, pid2, kbd, input):
