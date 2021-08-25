@@ -1,6 +1,6 @@
-import subprocess as sp
+#import subprocess as sp
 import time
-from pynput.keyboard import Key
+#from pynput.keyboard import Key
 
 
 #Mourir
