@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block head%}
+    <!--<meta http-equiv="refresh" content="1" />-->
+{%endblock %}
+
+{% block body%}
+
+
+<div>
+    <form method="POST">
+
+        <span style="width:50%; display:flex; float:left">
+            <div>
+                <button name="controller" value="f1" id="load1" style="margin:10px"><label for="load1" style="margin:10px">Load Slot 1</label></button>
+                
+            </div>
+            <div>
+                <button name="controller" value="f1" id="load2" style="margin:10px"><label for="load2" style="margin:10px">Load Slot 2</label></button>
+                
+            </div>
+            <div>
+                <button name="controller" value="f1" id="load3" style="margin:10px"><label for="load3" style="margin:10px">Load Slot 3</label></button>
+                
+            </div>
+        </span>
+                <span style="width:50%; display:flex; float:right">
+            <div>
+                <button name="controller" value="place" id="place" style="margin:10px"><label for="place" style="margin:10px">Resize and place windows</label></button>
+
+            </div>
+            <div>
+                <button name="controller" value="firefox" id="firefox" style="margin:10px"><label for="firefox" style="margin:10px">Launch browser</label></button>
+                
+            </div>
+            <div>
+                <button name="controller" value="resetfirefox" id="resetfirefox" style="margin:10px"><label for="resetfirefox" style="margin:10px">Reset Browser place</label></button>
+                
+            </div>
+        </span>
+     </form>
+
+</div>
+
+
+{%endblock %}

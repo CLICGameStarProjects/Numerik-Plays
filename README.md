@@ -46,6 +46,8 @@ On installe chartkick.js ou un truc du genre
 Inch, ça tourne
 
 ```gunicorn --workers 1 --bind unix:numerikplays.sock -m 007 wsgi:app```
+```sudo chown www-data:www-data numerikplays.sock```
+```sudo chmod 777 numerikplays.sock```
 
 Si tout se passe bien et que j'ai bient fait mon boulot, 2 fenêtres de Saphir vont s'ouvrir et un serveur hébergé sur votre IP va s'ouvrir.
 

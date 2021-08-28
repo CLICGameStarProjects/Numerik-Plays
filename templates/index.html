@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
 {% block head%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
 
+<script src='css/main.css'></script>
 {%endblock %}
 
 {% block body%}
 <div>
 
-    <form action="/" method="POST">
+    <form method="POST">
 
         <div width="100%" align=center>
             <button name="mode" value="democracy" id="demo"><img src="/static/pics/democracyBtn.png" alt="democracy"/></button>

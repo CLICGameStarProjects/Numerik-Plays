@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block head%}
+    <meta http-equiv="refresh" content="2.5" />
+{%endblock %}
+
+{% block body%}
+
+
+<div>
+
+    <span style="width:50%; display:flex; float:left" >
+        <div style='background-image: url("/static/pics/wallBlank.png"); background-repeat: repeat;height:250px;  display: flex;   align-items: center;justify-content: center; width:100%'>
+            <img src="/static/pics/anarchyBtn.png" style="" alt="anarchy"/>
+        </div>
+
+
+    </span>
+
+    <span style="width:50%; display:flex; float:right" >
+        <div style='background-image: url("/static/pics/wallBlank.png"); background-repeat: repeat; height:250px;  display: flex;   align-items: center;justify-content: center; width:100% '>
+            <img src="/static/pics/democracyBtn.png" alt="anarchy" style=""/>
+        </div>
+
+    </span>
+
+</div>
+<div>
+
+
+    <span style="width:50%; display:flex; float:left" >
+        <div style=' height:400px;  display: flex;   align-items: center;justify-content: center; width:100% ;margin-top:30px'>
+
+            <div class="column" style="width:80%" >
+                {% column_chart ana_percentages %}
+            </div>
+ 
+        </div>
+    </span>
+
+
+        <span style="width:50%; display:flex; float:right" >
+        <div style='height:400px;  display: flex;   align-items: center;justify-content: center; width:100% ;margin-top:30px'>
+
+            <div class="column" style="width:80%">
+                {% column_chart demo_percentages %}
+            </div>
+   
+        </div>
+    </span>
+    
+    <span style="width:50%; display:flex; float:left" >
+        <div style='  display: flex;   align-items: center;justify-content: center; width:100%'>
+            <div style="overflow:scroll">
+            {%for (vote,percent) in ana_cache%}
+            <span>
+                {{percent}}% ont voté   
+                    {% if vote == "a"%} 
+                        <img src="/static/pics/Abutton_big.png" alt="a" style="width:100px"/>
+                    {% endif %}  
+                    {% if vote == "b"%} 
+                        <img src="/static/pics/Bbutton_big.png" alt="b" style="width:100px"/>
+                    {% endif %}   
+                    {% if vote == "up"%} 
+                    <img src="/static/pics/arrow_up.png" alt="up" style="width:100px"/>
+                    {% endif %}   
+                    {% if vote == "down"%} 
+                    <img src="/static/pics/arrow_down.png" alt="down" style="width:100px"/>
+                    {% endif %}
+                    {% if vote == "right"%} 
+                    <img src="/static/pics/arrow_right.png" alt="right" style="width:100px"/>
+                    {% endif %}   
+                    {% if vote == "left"%} 
+                    <img src="/static/pics/arrow_left.png" alt="left" style="width:100px" />
+                    {% endif %}
+
+            </span>
+            {% endfor %}
+            </div>
+
+        </div>
+    </span>
+
+
+        <span style="width:50%; display:flex; float:right" >
+        <div style='  display: flex;   align-items: center;justify-content: center; width:100% ;'>
+
+            <div style="overflow:scroll">
+                {%for (vote,percent) in demo_cache%}
+                <span>
+                {{percent}}% ont voté   
+                {% if vote == "a"%} 
+                        <img src="/static/pics/Abutton_big.png" alt="a" style="width:100px"/>
+                    {% endif %}  
+                    {% if vote == "b"%} 
+                        <img src="/static/pics/Bbutton_big.png" alt="b" style="width:100px"/>
+                    {% endif %}   
+                    {% if vote == "up"%} 
+                    <img src="/static/pics/arrow_up.png" alt="up" style="width:100px"/>
+                    {% endif %}   
+                    {% if vote == "down"%} 
+                    <img src="/static/pics/arrow_down.png" alt="down" style="width:100px"/>
+                    {% endif %}
+                    {% if vote == "right"%} 
+                    <img src="/static/pics/arrow_right.png" alt="right" style="width:100px"/>
+                    {% endif %}   
+                    {% if vote == "left"%} 
+                    <img src="/static/pics/arrow_left.png" alt="left" style="width:100px" />
+                    {% endif %}
+  
+                </span>
+                {% endfor %}
+            </div>
+   
+        </div>
+    </span>
+</div>
+
+
+{%endblock %}

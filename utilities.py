@@ -1,7 +1,7 @@
-#import subprocess as sp
+import subprocess as sp
 import time
-#from pynput.keyboard import Key
-
+from pynput.keyboard import Key
+import re
 
 #Mourir
 def translate(input):
@@ -19,6 +19,10 @@ def translate(input):
         return Key.right
     elif input=="enter":
         return Key.enter
+    elif input=="f1":
+        return Key.f1
+    elif input=="f2":
+        return Key.f2        
     print("Input not recognized")
     return 
 
@@ -88,3 +92,43 @@ def startRoutine(pid1, pid2, kbd):
     for i in range(100):
         sync_input(pid1, pid2, kbd, "x")
         time.sleep(0.7)
+
+
+def launch_place_firefox():
+    string = "firefox --new-window numerikplays.ch/stats & echo $!"
+    terminal2 = sp.Popen(string, shell=True, stdout=sp.PIPE)
+    time.sleep(2)
+  
+
+    string = 'xdotool search --name "Mozilla Firefox"'
+    terminal2 = sp.Popen(string, shell=True, stdout=sp.PIPE)
+    lines = [line.rstrip() for line in terminal2.stdout.readlines()]
+    widFirefox = re.sub("[^0-9]","", str(lines[-1]))   
+    print(widFirefox)
+
+
+    string = 'xdotool windowsize  %s 3840 1080'% (widFirefox) 
+    sp.Popen(string, shell=True)
+    
+    string = 'xdotool windowmove  %s 2560 1095'% (widFirefox)
+    sp.Popen(string, shell=True)
+
+    return widFirefox
+
+
+def reset_place_firefox(widFirefox):
+    print("WID", widFirefox)
+    string = 'xdotool windowsize  %s 3840 1080'% (widFirefox) 
+    sp.Popen(string, shell=True)
+    
+    string = 'xdotool windowmove  %s 2560 1095'% (widFirefox)
+    sp.Popen(string, shell=True)
+
+def vladi_mir_cache(cache, elem, cache_size):
+    if len(cache)<cache_size:
+        cache.append(elem)
+    else:
+        for i in range (1,cache_size-1):
+            cache[i-1]=cache[i]
+        cache[cache_size-1]=elem
+    return cache

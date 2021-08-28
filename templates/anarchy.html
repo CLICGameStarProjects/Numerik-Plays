@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block head%}
+ 
+<link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
+
+<script src='css/main.css'></script>
 
 {%endblock %}
 
@@ -75,16 +79,5 @@
         </table>
     </form>
 </div>
-<div>
-    {% pie_chart percentages %}
-</div>
-
-<div>
-    {% for input,percentage in percentages.items()  %}
-    <span>{{percentage}}%</span>
-    {% endfor %}
-</div>
-
-
 
 {%endblock %}
