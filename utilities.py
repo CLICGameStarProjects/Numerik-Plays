@@ -22,7 +22,9 @@ def translate(input):
     elif input=="f1":
         return Key.f1
     elif input=="f2":
-        return Key.f2        
+        return Key.f2   
+    elif input=="f3":
+        return Key.f3       
     print("Input not recognized")
     return 
 

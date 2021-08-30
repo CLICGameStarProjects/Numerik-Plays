@@ -15,12 +15,18 @@ ck = Blueprint('ck_page', __name__, static_folder=chartkick.js(), static_url_pat
 app.register_blueprint(ck, url_prefix='/ck')
 app.jinja_env.add_extension("chartkick.ext.charts")
 
-BASE_INPUTS = {"up":0, "down":0, "right":0, "left":0, "a":0, "b":0}
-inputs_ana = BASE_INPUTS
-inputs_demo = BASE_INPUTS
+inputs_ana = {"up":0, "down":0, "right":0, "left":0, "a":0, "b":0}
+inputs_demo = {"up":0, "down":0, "right":0, "left":0, "a":0, "b":0}
+
+FAST_TIME = 2.5
+SLOW_TIME = 5
 
 DEMO_VOTING_TIME = 5    
 ANAR_VOTING_TIME = 5
+
+
+
+
 
 timer=time.perf_counter()
 
@@ -70,11 +76,13 @@ def democracy():
 
         print(timer-time.perf_counter())
         if (time.perf_counter()-timer)>DEMO_VOTING_TIME:
+                all_votes = sorted(([k]*v for k,v in inputs_demo.items()))
                 vote_res = max(inputs_demo.keys(), key=(lambda key: inputs_demo[key]))
                 inputs_demo = inputs_demo.fromkeys(inputs_demo, 0) 
                 timer=time.perf_counter()
                 press_key(pidDemocracy, kbd, translate(str(vote_res)))
-                vladi_mir_cache(demo_cache, (str(vote_res), demo_percentages[vote_res]), cache_size)
+                demo_cache = vladi_mir_cache(demo_cache, (str(vote_res), demo_percentages[vote_res]), cache_size)
+                print("All votes ", all_votes)
                 print("Democracy VOTE RESULT",(str(vote_res), demo_percentages[vote_res]))
                 logs.write("Democracy : "+str(datetime.now())+" : "+str(vote_res) +" "+ str(demo_percentages[vote_res]) +"%\n")
                 logs.flush()
@@ -104,7 +112,6 @@ def anarchy():
 
         if (time.perf_counter()-timer)>ANAR_VOTING_TIME:
                 all_votes = sorted(([k]*v for k,v in inputs_ana.items()))
-                print("All votes ", all_votes)
                 flat_votes = []
                 for line in all_votes:
                         for val in line:
@@ -114,7 +121,8 @@ def anarchy():
                         inputs_ana = inputs_ana.fromkeys(inputs_ana, 0) 
                         timer=time.perf_counter()
                         press_key(pidAnarchy, kbd, translate(str(vote_res[0])))
-                        vladi_mir_cache(ana_cache, (str(vote_res[0]), ana_percentages[vote_res[0]]), cache_size)
+                        ana_cache = vladi_mir_cache(ana_cache, (str(vote_res[0]), ana_percentages[vote_res[0]]), cache_size)
+                        print("All votes ", all_votes)
                         print("Anarchy VOTE RESULT",(str(vote_res[0]), ana_percentages[vote_res[0]]))
                         logs.write("Anarchy : "+str(datetime.now())+" : "+str(vote_res) +" "+ str(ana_percentages[vote_res[0]]) +"%\n")
                         logs.flush()
@@ -143,6 +151,8 @@ def stats():
 @app.route("/numerik/admin", methods=['POST', 'GET']) #CHANGE
 def admin():
         global widFirefox
+        global ANAR_VOTING_TIME
+        global DEMO_VOTING_TIME
         if request.method== 'POST':
                 if request.form['controller'] == "place":
                         print("place")
@@ -151,6 +161,12 @@ def admin():
                         widFirefox = launch_place_firefox()
                 elif request.form['controller'] == "resetfirefox":
                         widFirefox = reset_place_firefox(widFirefox)
+                elif request.form['controller'] == "slowvote":
+                        ANAR_VOTING_TIME = SLOW_TIME
+                        DEMO_VOTING_TIME = SLOW_TIME      
+                elif request.form['controller'] == "fastvote":
+                        ANAR_VOTING_TIME = FAST_TIME
+                        DEMO_VOTING_TIME = FAST_TIME
                 else:
                         sync_input(pidAnarchy,pidDemocracy,kbd, translate(request.form['controller']))
         return render_template("admin.html")
