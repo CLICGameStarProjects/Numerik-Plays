@@ -6,11 +6,11 @@ Pour commencer à s'amuser :
 ## C kwa ce truc
 En gros, le projet permet lance 2 emulateur de pokemon et un serveur web. Sur le front end, on choisit entre un mode anarchie et un mode démocratie, chaque mode permet de controller l'une des fenêtres.
 
-
 ## Dependance
+Les seuls OS qui fonctionnent pour le moment sont ceux basés sur GNU/Linux. 
 <ul>
 <li>
-    <b>Nginx</b> N'importe quel tuto vous aidera mieux à le paramètrer que moi
+    <b>Nginx</b> N'importe quel tuto vous aidera mieux à le paramètrer que moi, l'idée c'est de créer un websocket avec gunicorn par exemple, et de servir ce socket avec un reverse proxy
 </li>
 
 <li>
@@ -24,7 +24,14 @@ En gros, le projet permet lance 2 emulateur de pokemon et un serveur web. Sur le
     <b>NPM</b> Désolé. <pre>sudo apt install npm</pre> 
 </li>
 <li>
+    <b>mGBA</b> <pre>sudo apt install mgba</pre> 
+</li>
 
+<li>
+    <b>wmctrl</b> Normalement, il est inclu dans votre distrib, sinon dispo en ppa : <pre>sudo apt install wmctrl</pre>
+</li>
+<li>
+    <b>xdottool</b> utilisé pour manipuler les fenêtres: <pre>sudo apt install xdottool</pre>
 </li>
 
 </ul>
@@ -43,7 +50,7 @@ On installe chartkick.js ou un truc du genre
 
 ```npm i```
 
-Inch, ça tourne
+Inch, ça tourne : on lance le socket, et on donnes les permissions de lectures. www-data est chez moi le user utilisé par nginx. 
 
 ```gunicorn --workers 1 --bind unix:numerikplays.sock -m 007 wsgi:app```
 ```sudo chown www-data:www-data numerikplays.sock```
@@ -51,7 +58,7 @@ Inch, ça tourne
 
 Si tout se passe bien et que j'ai bient fait mon boulot, 2 fenêtres de Saphir vont s'ouvrir et un serveur hébergé sur votre IP va s'ouvrir.
 
-## Contingency plan in case eveything goes very bad during the event
+## Contingency plan in case eveything goes very bad during the event 
 
 Go into vscode the vscode terminal
 Interrupt (CTRL+C)

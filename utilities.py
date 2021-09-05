@@ -81,7 +81,7 @@ def press_key(pid, kbd, input):
     time.sleep(0.2)
     kbd.release(input)
 
-#Rigolo mais useless
+#Rigolo mais useless au final
 def startRoutine(pid1, pid2, kbd):
     sync_input(pid1, pid2, kbd, Key.enter)
     time.sleep(0.3)
@@ -96,6 +96,8 @@ def startRoutine(pid1, pid2, kbd):
         time.sleep(0.7)
 
 
+
+# Réglé pour le setup précédemment décris. Marche très mal
 def launch_place_firefox():
     string = "firefox --new-window numerikplays.ch/stats & echo $!"
     terminal2 = sp.Popen(string, shell=True, stdout=sp.PIPE)
@@ -118,6 +120,7 @@ def launch_place_firefox():
     return widFirefox
 
 
+# incase il y a un petit soucis lors du lancement de firefox, on peut réessayer ici
 def reset_place_firefox(widFirefox):
     print("WID", widFirefox)
     string = 'xdotool windowsize  %s 3840 1080'% (widFirefox) 
@@ -126,6 +129,9 @@ def reset_place_firefox(widFirefox):
     string = 'xdotool windowmove  %s 2560 1095'% (widFirefox)
     sp.Popen(string, shell=True)
 
+
+
+# Utilisé pour construire une queue fifo afin d'afficher les derniers inputs
 def vladi_mir_cache(cache, elem, cache_size):
     if len(cache)<cache_size:
         cache.append(elem)

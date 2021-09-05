@@ -25,9 +25,6 @@ DEMO_VOTING_TIME = 5
 ANAR_VOTING_TIME = 5
 
 
-
-
-
 timer=time.perf_counter()
 
 kbd = Controller()
@@ -125,7 +122,7 @@ def anarchy():
                         print("All votes ", all_votes)
                         print("Anarchy VOTE RESULT",(str(vote_res[0]), ana_percentages[vote_res[0]]))
                         logs.write("Anarchy : "+str(datetime.now())+" : "+str(vote_res) +" "+ str(ana_percentages[vote_res[0]]) +"%\n")
-                        logs.flush()
+                        logs.flush() #pb de concurrences autrement, je suis pas convaincu que ce soit résolu d'ailleurs
 
 
         if request.method== 'POST':
