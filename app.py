@@ -36,14 +36,14 @@ logs = open("logs.txt", "a")
 #Lance un émulateur et echo son Process ID
 terminal1 = sp.Popen('mgba Pokemon/saphir.gba & echo $!', shell=True, stdout=sp.PIPE)
 #Récupère le PID qui vient de se faire echo, c'est essentiel pour pouvoir changer le focus sur la fenêtre
-pidAnarchy = re.sub("[^0-9]","", str(terminal1.stdout.readline()))
-print(pidAnarchy)
+pidprope = re.sub("[^0-9]","", str(terminal1.stdout.readline()))
+print(pidprope)
 #
 terminal2 = sp.Popen('mgba Pokemon/saphir.gba & echo $!', shell=True, stdout=sp.PIPE)
-pidDemocracy = re.sub("[^0-9]","", str(terminal2.stdout.readline()))
-print(pidDemocracy)
+pidpromo = re.sub("[^0-9]","", str(terminal2.stdout.readline()))
+print(pidpromo)
 time.sleep(2)
-resizeAndPlace(pidAnarchy, pidDemocracy)
+resizeAndPlace(pidprope, pidpromo)
 time.sleep(5)
 
 
@@ -55,9 +55,9 @@ demo_cache = []
 
 cache_size=5
 
-@app.route('/democracy', methods=['POST', 'GET'])
-@app.route('/numerik/democracy', methods=['POST', 'GET'])
-def democracy():
+@app.route('/promo', methods=['POST', 'GET'])
+@app.route('/clicoaching/promo', methods=['POST', 'GET'])
+def promo():
         global timer
         global inputs_demo
         global demo_percentages
@@ -77,24 +77,24 @@ def democracy():
                 vote_res = max(inputs_demo.keys(), key=(lambda key: inputs_demo[key]))
                 inputs_demo = inputs_demo.fromkeys(inputs_demo, 0) 
                 timer=time.perf_counter()
-                press_key(pidDemocracy, kbd, translate(str(vote_res)))
+                press_key(pidpromo, kbd, translate(str(vote_res)))
                 demo_cache = vladi_mir_cache(demo_cache, (str(vote_res), demo_percentages[vote_res]), cache_size)
                 print("All votes ", all_votes)
-                print("Democracy VOTE RESULT",(str(vote_res), demo_percentages[vote_res]))
-                logs.write("Democracy : "+str(datetime.now())+" : "+str(vote_res) +" "+ str(demo_percentages[vote_res]) +"%\n")
+                print("promo VOTE RESULT",(str(vote_res), demo_percentages[vote_res]))
+                logs.write("promo : "+str(datetime.now())+" : "+str(vote_res) +" "+ str(demo_percentages[vote_res]) +"%\n")
                 logs.flush()
 
 
         if request.method== 'POST':
                 inputs_demo[request.form['controller']]+=1
                 print(inputs_demo)
-                return redirect('/numerik/democracy')
+                return redirect('/clicoaching/promo')
         else:
-                return render_template("democracy.html", percentages=demo_percentages)
+                return render_template("promo.html", percentages=demo_percentages)
 
-@app.route('/anarchy', methods=['POST', 'GET'])
-@app.route('/numerik/anarchy', methods=['POST', 'GET'])
-def anarchy():
+@app.route('/prope', methods=['POST', 'GET'])
+@app.route('/clicoaching/prope', methods=['POST', 'GET'])
+def prope():
         global timer
         global inputs_ana
         global ana_percentages
@@ -117,24 +117,24 @@ def anarchy():
                         vote_res= rd.sample(flat_votes, 1)
                         inputs_ana = inputs_ana.fromkeys(inputs_ana, 0) 
                         timer=time.perf_counter()
-                        press_key(pidAnarchy, kbd, translate(str(vote_res[0])))
+                        press_key(pidprope, kbd, translate(str(vote_res[0])))
                         ana_cache = vladi_mir_cache(ana_cache, (str(vote_res[0]), ana_percentages[vote_res[0]]), cache_size)
                         print("All votes ", all_votes)
-                        print("Anarchy VOTE RESULT",(str(vote_res[0]), ana_percentages[vote_res[0]]))
-                        logs.write("Anarchy : "+str(datetime.now())+" : "+str(vote_res) +" "+ str(ana_percentages[vote_res[0]]) +"%\n")
+                        print("prope VOTE RESULT",(str(vote_res[0]), ana_percentages[vote_res[0]]))
+                        logs.write("prope : "+str(datetime.now())+" : "+str(vote_res) +" "+ str(ana_percentages[vote_res[0]]) +"%\n")
                         logs.flush() #pb de concurrences autrement, je suis pas convaincu que ce soit résolu d'ailleurs
 
 
         if request.method== 'POST':
                 inputs_ana[request.form['controller']]+=1
                 print(inputs_ana)
-                return redirect('/numerik/anarchy')
+                return redirect('/clicoaching/prope')
         else:
-                return render_template("anarchy.html")
+                return render_template("prope.html")
 
 
 @app.route("/stats", methods=['POST', 'GET'])
-@app.route("/numerik/stats", methods=['POST', 'GET'])
+@app.route("/clicoaching/stats", methods=['POST', 'GET'])
 def stats():
         global demo_percentages
         global ana_percentages
@@ -145,7 +145,7 @@ def stats():
 
 
 @app.route("/admin", methods=['POST', 'GET'])
-@app.route("/numerik/admin", methods=['POST', 'GET']) #CHANGE
+@app.route("/clicoaching/admin", methods=['POST', 'GET']) #CHANGE
 def admin():
         global widFirefox
         global ANAR_VOTING_TIME
@@ -153,7 +153,7 @@ def admin():
         if request.method== 'POST':
                 if request.form['controller'] == "place":
                         print("place")
-                        resizeAndPlace(pidAnarchy, pidDemocracy)
+                        resizeAndPlace(pidprope, pidpromo)
                 elif request.form['controller'] == "firefox":
                         widFirefox = launch_place_firefox()
                 elif request.form['controller'] == "resetfirefox":
@@ -165,18 +165,18 @@ def admin():
                         ANAR_VOTING_TIME = FAST_TIME
                         DEMO_VOTING_TIME = FAST_TIME
                 else:
-                        sync_input(pidAnarchy,pidDemocracy,kbd, translate(request.form['controller']))
+                        sync_input(pidprope,pidpromo,kbd, translate(request.form['controller']))
         return render_template("admin.html")
 
 
 
 
 @app.route('/', methods=['POST', 'GET'])
-@app.route('/numerik', methods=['POST', 'GET'])
-@app.route('/numerik/', methods=['POST', 'GET'])
+@app.route('/clicoaching', methods=['POST', 'GET'])
+@app.route('/clicoaching/', methods=['POST', 'GET'])
 def index():
         if request.method == 'POST':
-                return redirect('/numerik/'+request.form['mode'])
+                return redirect('/clicoaching/'+request.form['mode'])
         else:
                 return render_template("index.html")
 
