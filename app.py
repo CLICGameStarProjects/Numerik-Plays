@@ -93,9 +93,47 @@ def promo():
                 return render_template("promo.html", percentages=demo_percentages)
 
 @app.route('/prope', methods=['POST', 'GET'])
+
 @app.route('/clicoaching/prope', methods=['POST', 'GET'])
 def prope():
         global timer
+        global inputs_ana
+        global ana_percentages
+        global ana_cache
+        
+        
+        total_votes = sum(inputs_ana.values())
+        ana_percentages= inputs_ana
+ 
+        if total_votes:
+                ana_percentages=  {k: round(v/total_votes*100,1) for k,v in inputs_ana.items()}
+
+
+        print(timer-time.perf_counter())
+
+        if (time.perf_counter()-timer)>ANAR_VOTING_TIME:
+                all_votes = sorted(([k]*v for k,v in inputs_ana.items()))
+                vote_res = max(inputs_ana.keys(), key=(lambda key: inputs_ana[key]))
+                inputs_ana = inputs_ana.fromkeys(inputs_ana, 0) 
+                timer=time.perf_counter()
+                press_key(pidprope, kbd, translate(str(vote_res)))
+                ana_cache = vladi_mir_cache(ana_cache, (str(vote_res), ana_percentages[vote_res]), cache_size)
+                print("All votes ", all_votes)
+                print("promo VOTE RESULT",(str(vote_res), ana_percentages[vote_res]))
+                logs.write("promo : "+str(datetime.now())+" : "+str(vote_res) +" "+ str(ana_percentages[vote_res]) +"%\n")
+                logs.flush()
+
+        if request.method== 'POST':
+                inputs_ana[request.form['controller']]+=1
+                print(inputs_ana)
+                return redirect('/clicoaching/prope')
+        else:
+                return render_template("prope.html")
+
+
+
+
+"""  global timer
         global inputs_ana
         global ana_percentages
         global ana_cache
@@ -123,14 +161,9 @@ def prope():
                         print("prope VOTE RESULT",(str(vote_res[0]), ana_percentages[vote_res[0]]))
                         logs.write("prope : "+str(datetime.now())+" : "+str(vote_res) +" "+ str(ana_percentages[vote_res[0]]) +"%\n")
                         logs.flush() #pb de concurrences autrement, je suis pas convaincu que ce soit résolu d'ailleurs
+ """
 
 
-        if request.method== 'POST':
-                inputs_ana[request.form['controller']]+=1
-                print(inputs_ana)
-                return redirect('/clicoaching/prope')
-        else:
-                return render_template("prope.html")
 
 
 @app.route("/stats", methods=['POST', 'GET'])
